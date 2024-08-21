@@ -54,7 +54,7 @@ body{
 #map, #tester{ 
     height: 20rem;
     max-width: 36rem;
-    width: 48%;
+    width: 50%;
     border-radius: 8px;
     overflow: hidden;
 }
