@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>Fetch Example</title>
+    <title>Weather and wind speed api</title>
    <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,8 +11,21 @@
         <!-- Input controls like textboxes and buttons -->
         <div class="control-panel">
             <button id="fetchButton" class="control-button">GET</button>
-            <input type="text" class="url-input" id="urlTextBox">
+            <!-- <input type="text" class="url-input" id="urlTextBox"> -->
         </div>
+
+        <div id="latitudeReadout">           
+        </div>
+
+        <div id="longitudeReadout">           
+        </div>
+        
+        <div id="currentTemp">
+        </div>
+
+        <div id="currentWind">
+        </div>
+       
         
         <!-- Raw printout of the result-->
         <div class="data-results" id="mainResults"></div>

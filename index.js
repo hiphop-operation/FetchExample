@@ -1,44 +1,100 @@
 // make variables for the html elements
-const fetchButton = document.getElementById("fetchButton");
-const urlTextBox = document.getElementById("urlTextBox");
-const dataResultArea = document.getElementById("mainResults");
 
-// Make a GET api request
-async function getRequest(someURL) {
-    // clear out the data printout area of the html page
-    dataResultArea.innerHTML = "";
+const fetchButton = document.getElementById("fetchButton");
+// const urlTextBox = document.getElementById("urlTextBox");
+const dataResultArea = document.getElementById("mainResults");
+const latitudeReadout = document.getElementById("latitudeReadout");
+const longitudeReadout = document.getElementById("longitudeReadout");
+const currentWind = document.getElementById("currentWind");
+const currentTemp = document.getElementById("currentTemp")
+
+
+
+async function fetchWeatherData(latitude, longitude) {
+    try {
+        // Construct the API URL with the dynamic latitude and longitude
+        const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m`;
+        
+        // Send a GET request to the API
+        const response = await fetch(apiUrl);
+
+        // Check if the response is successful
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        // Convert the response to JSON
+        const data = await response.json();
+
+        // Extract current weather data
+        const currentTemperature = data.current.temperature_2m;
+        const currentWindSpeed = data.current.wind_speed_10m;
+
+           // Update the DOM with the current temperature
+           currentTemp.textContent = `Current Temperature: ${currentTemperature}°C`;
+           currentWind.textContent = `Wind Speed: ${currentWindSpeed}`;
+
+           // Log the extracted data (or handle it as needed)
+           console.log("Current Temperature:", currentTemperature);
+           console.log("Current Wind Speed:", currentWindSpeed);
+   
+       } catch (error) {
+           // Handle errors
+           console.error("Failed to fetch weather data:", error);
+       }
+    }
+
+
     
-    // Fetch a response from the REST API
-    const response = await fetch(someURL);
-    
-    // extract the JSON payload from the response
-    const result = await response.json();
-    
-    // Sometimes the payload is actually a string instead of an object. If so convert
-    // it to an object
-    let objResult = (typeof result == "object") ? result  : JSON.parse(result);
-    
-    // and either way, convert the object to a string to print out. 
-    let strResult = JSON.stringify(objResult, undefined, 2);
-    dataResultArea.innerHTML = `<pre><code>${strResult}</code></pre>`;
-    
-    // return the JSON object
-    return objResult;
+    const myClickHandler = function(event) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            
+            // Update the latitude and longitude readouts
+            latitudeReadout.textContent = `Latitude: ${latitude}`;
+            longitudeReadout.textContent = `Longitude: ${longitude}`;
+            
+            // Fetch the weather data using the current position
+            fetchWeatherData(latitude, longitude);
+        });
 }
 
-
-// Make the GET request when the fetch button is clicked
-fetchButton.addEventListener('click', async (event) => {
-    // fetch whatever URL has been typed into textbox
-    let url = urlTextBox.value;
-    let data = await getRequest(url);
-    // Do something else with 'data' if you want
-});
+fetchButton.addEventListener('click', myClickHandler);
 
 
-// Also fetch the URL if it changes
-urlTextBox.addEventListener('change', async (event) => {
-    let url = urlTextBox.value;
-    let data = await getRequest(url);
-    // Do something else with 'data' if you want
-});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // Make the GET request when the fetch button is clicked
+// fetchButton.addEventListener('click', async (event) => {
+//     // fetch whatever URL has been typed into textbox
+//     let url = urlTextBox.value;
+//     let data = await getRequest(url);
+//     // Do something else with 'data' if you want
+// });
+
+
+// // Also fetch the URL if it changes
+// urlTextBox.addEventListener('change', async (event) => {
+//     let url = urlTextBox.value;
+//     let data = await getRequest(apiUrl);
+//     // Do something else with 'data' if you want
+// });
+
+
+

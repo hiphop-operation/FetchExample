@@ -1,3 +1,13 @@
+body{
+    background-color: black;
+    color: white;
+    font-size: 5em;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+
+
 .main-container {
     max-width: 72em;
     font-family: monospace;
