@@ -1,9 +1,8 @@
 body{
     background-color: black;
     color: white;
-    font-size: 5em;
-    overflow-x: hidden;
-    overflow-y: hidden;
+    font-size: 4em;
+    overflow: scroll;
 }
 
 
@@ -33,5 +32,9 @@ body{
 }
 
 .control-button {
+    display: flex;
     margin: 1em;
+    
 }
+
+#map { height:20rem}

@@ -44,6 +44,17 @@ async function fetchWeatherData(latitude, longitude) {
        }
     }
 
+         // Add a click event listener to the map
+         map.on('click', function(e) {
+            const { lat, lng } = e.latlng;
+            alert(`You clicked at Latitude: ${lat}, Longitude: ${lng}`);
+            
+            // Optionally, add a marker at the clicked location
+            L.marker([lat, lng]).addTo(map)
+                .bindPopup(`Latitude: ${lat}, Longitude: ${lng}`)
+                .openPopup();
+        });
+
 
     
     const myClickHandler = function(event) {
@@ -61,40 +72,5 @@ async function fetchWeatherData(latitude, longitude) {
 }
 
 fetchButton.addEventListener('click', myClickHandler);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // Make the GET request when the fetch button is clicked
-// fetchButton.addEventListener('click', async (event) => {
-//     // fetch whatever URL has been typed into textbox
-//     let url = urlTextBox.value;
-//     let data = await getRequest(url);
-//     // Do something else with 'data' if you want
-// });
-
-
-// // Also fetch the URL if it changes
-// urlTextBox.addEventListener('change', async (event) => {
-//     let url = urlTextBox.value;
-//     let data = await getRequest(apiUrl);
-//     // Do something else with 'data' if you want
-// });
-
 
 

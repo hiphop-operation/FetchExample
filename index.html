@@ -4,6 +4,50 @@
     <meta charset="UTF-8" />
     <title>Weather and wind speed api</title>
    <link rel="stylesheet" href="style.css">
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+   crossorigin=""/>
+   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+   crossorigin=""></script>
+
+   <script>
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+
+                const map = L.map('map').setView([latitude, longitude], 13);
+
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; OpenStreetMap contributors'
+                }).addTo(map);
+
+                L.marker([latitude, longitude]).addTo(map)
+                    .bindPopup('You are here.')
+                    .openPopup();
+            },
+            function() {
+                const defaultLatitude = 51.505;
+                const defaultLongitude = -0.09;
+
+                const map = L.map('map').setView([defaultLatitude, defaultLongitude], 13);
+
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; OpenStreetMap contributors'
+                }).addTo(map);
+
+                alert('Unable to retrieve your location. Showing default location.');
+
+                
+            }
+        );
+    } else {
+        alert('Geolocation is not supported by your browser.');
+    }
+</script>
 </head>
 <body>
     <div class="main-container">
@@ -25,7 +69,10 @@
 
         <div id="currentWind">
         </div>
+
+        <div id="map"></div>
        
+        
         
         <!-- Raw printout of the result-->
         <div class="data-results" id="mainResults"></div>
